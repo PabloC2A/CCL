@@ -1,0 +1,72 @@
+/* --- Estilos para la sección Héroe --- */
+.hero-section {
+    position: relative;
+    padding: 8rem 0;
+    background: url('../img/hero-servicios.jpg') no-repeat center center; /* Asegúrate de tener esta imagen en static/img */
+    background-size: cover;
+    background-attachment: fixed; /* Efecto Parallax */
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(13, 110, 253, 0.7); /* Superposición de color primario */
+    background: linear-gradient(45deg, rgba(13, 110, 253, 0.8), rgba(0, 50, 150, 0.8));
+}
+
+/* --- Estilos para las tarjetas de servicio --- */
+.card-service {
+    transition: all 0.3s ease-in-out;
+    overflow: hidden; /* Para que el zoom de la imagen no se salga */
+}
+
+.card-service:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 1rem 3rem rgba(0,0,0,0.175) !important;
+}
+
+.card-service .card-img-top {
+    transition: transform 0.4s ease;
+}
+
+.card-service:hover .card-img-top {
+    transform: scale(1.05); /* Sutil zoom a la imagen */
+}
+
+/* Para que el enlace 'stretched-link' solo se active en la tarjeta */
+.card-service .stretched-link::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    content: "";
+}
+
+/* --- Estilos para las tarjetas destacadas --- */
+.card-featured {
+    background: #f8f9fa;
+    transition: all 0.3s ease;
+}
+.card-featured:hover {
+     transform: scale(1.02);
+}
+
+/* --- Estilos para las animaciones de entrada --- */
+
+/* Estado inicial de los elementos a animar */
+.fade-in {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* Estado final (visible) que se añade con JS */
+.fade-in.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
