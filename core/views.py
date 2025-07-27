@@ -1,5 +1,5 @@
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
+from django.views.generic import TemplateView
 
 def landing_page_view(request):
     """
@@ -11,3 +11,6 @@ def landing_page_view(request):
         return redirect('users:dashboard')
 
     return render(request, 'core/landing_page.html')
+
+class NosotrosView(TemplateView):
+    template_name = "nosotros.html"

@@ -1,33 +1,34 @@
-document.addEventListener('DOMContentLoaded', function() {
+// services/static/services/js/servicios.js
 
-    // --- Lógica para animar elementos al hacer scroll ---
-    const animatedElements = document.querySelectorAll('.fade-in');
+document.addEventListener('DOMContentLoaded', () => {
 
-    if (!animatedElements.length) {
-        return;
-    }
+    // Función para animar elementos al ser visibles
+    const animateOnScroll = () => {
+        const elementsToAnimate = document.querySelectorAll('.fade-in-up');
 
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // Obtiene el delay del atributo data-delay, si existe
-                const delay = entry.target.dataset.delay || 0;
+        if (!elementsToAnimate.length) {
+            return;
+        }
 
-                // Aplica la animación después del delay
-                setTimeout(() => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                // Si el elemento es visible
+                if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                }, parseInt(delay));
-
-                // Deja de observar el elemento una vez que ha sido animado
-                observer.unobserve(entry.target);
-            }
+                    // Opcional: deja de observar el elemento una vez que ha sido animado
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1 // La animación se dispara cuando el 10% del elemento es visible
         });
-    }, {
-        threshold: 0.1 // Se activa cuando el 10% del elemento es visible
-    });
 
-    animatedElements.forEach(el => {
-        observer.observe(el);
-    });
+        elementsToAnimate.forEach(element => {
+            observer.observe(element);
+        });
+    };
+
+    // Inicializar la función
+    animateOnScroll();
 
 });

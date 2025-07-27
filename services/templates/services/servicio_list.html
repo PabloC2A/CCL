@@ -1,148 +1,36 @@
 {% extends "base.html" %}
-{% load static %}
 
 {% block title %}{{ page_title }} - {{ block.super }}{% endblock title %}
 
-{% block extra_head %}
-    <link rel="stylesheet" href="{% static 'services/css/servicios.css' %}">
-{% endblock extra_head %}
-
-
 {% block content %}
-
-<section class="hero-section text-white text-center">
-    <div class="hero-overlay"></div>
-    <div class="container position-relative">
-        <div class="fade-in">
-            <h1 class="display-3 fw-bolder">{{ page_title }}</h1>
-            <p class="lead col-lg-8 mx-auto fs-4">Potencia tu negocio con nuestro catálogo de servicios exclusivos, diseñados para socios como tú.</p>
+    <div class="container py-4">
+        <div class="p-5 mb-4 bg-light rounded-3">
+            <div class="container-fluid py-5">
+                <h1 class="display-5 fw-bold">{{ page_title }}</h1>
+                <p class="col-md-8 fs-4">Explora todos los beneficios y servicios que tenemos disponibles para nuestros
+                    socios. Haz clic en un servicio para ver más detalles y realizar una solicitud.</p>
+            </div>
         </div>
-    </div>
-</section>
 
-<div class="container py-5">
-
-    <div class="text-center mb-5 fade-in">
-        <h2 class="display-5 fw-bold">Servicios Populares</h2>
-        <p class="lead text-muted">Los beneficios más solicitados por nuestra comunidad de socios.</p>
-    </div>
-    <div class="row g-4 mb-5">
-        {# NOTA: Aquí podrías tener una lógica para mostrar solo 2 o 3 servicios "destacados" #}
-        <div class="col-lg-6 fade-in" data-delay="100">
-            <div class="card card-featured shadow-lg border-0 h-100 p-3">
-                <div class="row g-0 align-items-center h-100">
-                    <div class="col-md-4">
-                        <img src="{% static 'img/servicio-destacado-1.jpg' %}" class="img-fluid rounded-start" alt="Asesoría Legal">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Asesoría Legal y Tributaria</h5>
-                            <p class="card-text text-muted">Nuestros expertos te guían para que tomes las mejores decisiones, cumpliendo siempre con la normativa vigente.</p>
-                            <a href="#" class="btn btn-warning fw-bold">Solicitar Asesoría <i class="bi bi-arrow-right-short"></i></a>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {% for servicio in servicios %}
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ servicio.nombre }}</h5>
+                            <p class="card-text text-muted flex-grow-1">{{ servicio.descripcion|truncatewords:20 }}</p>
+                            <a href="{% url 'services:servicio-detail' pk=servicio.pk %}"
+                               class="btn btn-primary mt-auto">
+                                Ver Detalles y Recursos
+                            </a>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-lg-6 fade-in" data-delay="200">
-            <div class="card card-featured shadow-lg border-0 h-100 p-3">
-                 <div class="row g-0 align-items-center h-100">
-                    <div class="col-md-4">
-                        <img src="{% static 'img/servicio-destacado-2.jpg' %}" class="img-fluid rounded-start" alt="Alquiler de Salones">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Alquiler de Salones de Eventos</h5>
-                            <p class="card-text text-muted">Espacios modernos y equipados para tus conferencias, reuniones o eventos corporativos con tarifas preferenciales.</p>
-                            <a href="#" class="btn btn-warning fw-bold">Ver Disponibilidad <i class="bi bi-arrow-right-short"></i></a>
-                        </div>
-                    </div>
+            {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-info">No hay servicios disponibles en este momento.</div>
                 </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
-
-    <div class="text-center mb-5 fade-in">
-        <h2 class="display-5 fw-bold">Catálogo Completo</h2>
-        <p class="lead text-muted">Explora todas las herramientas que ponemos a tu disposición.</p>
-    </div>
-    
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-        {% for servicio in servicios %}
-            <div class="col fade-in" data-delay="{{ forloop.counter|add:'1' }}00">
-                {# El card ahora tiene un efecto hover y una estructura más rica #}
-                <div class="card card-service h-100 shadow-sm border-0">
-                    {# Asumimos que tu modelo 'Servicio' tiene un campo de imagen #}
-                    {% if servicio.imagen %}
-                        <img src="{{ servicio.imagen.url }}" class="card-img-top" alt="{{ servicio.nombre }}">
-                    {% else %}
-                        <img src="{% static 'img/placeholder.jpg' %}" class="card-img-top" alt="Placeholder">
-                    {% endif %}
-                    
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title fw-bold">{{ servicio.nombre }}</h5>
-                        <p class="card-text text-muted flex-grow-1">{{ servicio.descripcion|truncatewords:20 }}</p>
-                        <a href="{% url 'services:servicio-detail' pk=servicio.pk %}"
-                           class="btn btn-outline-primary fw-bold mt-auto stretched-link">
-                            Ver Detalles <i class="bi bi-arrow-right-short"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        {% empty %}
-            <div class="col-12">
-                <div class="alert alert-info">No hay servicios disponibles en este momento.</div>
-            </div>
-        {% endfor %}
-    </div>
-
-    <div class="py-5 mt-5 fade-in">
-        <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold">Preguntas Frecuentes</h2>
-            <p class="lead text-muted">Resolvemos tus dudas más comunes.</p>
-        </div>
-        <div class="accordion col-lg-8 mx-auto shadow-sm" id="faqAccordion">
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
-                        ¿Quiénes pueden solicitar estos servicios?
-                    </button>
-                </h2>
-                <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        Todos nuestros servicios están disponibles exclusivamente para socios activos de la Cámara de Comercio de Loja. Si aún no eres socio, ¡afíliate hoy mismo!
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingTwo">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
-                        ¿Cómo realizo una solicitud?
-                    </button>
-                </h2>
-                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        Simplemente haz clic en "Ver Detalles" en el servicio de tu interés. Dentro de la página de detalle, encontrarás los recursos disponibles y un formulario para realizar tu solicitud en línea.
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingThree">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
-                        ¿Tienen algún costo los servicios?
-                    </button>
-                </h2>
-                <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        Muchos de nuestros servicios, como las asesorías básicas, están incluidos en tu membresía. Otros, como el alquiler de espacios o cursos especializados, tienen tarifas preferenciales muy convenientes para socios.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 {% endblock content %}
-
-{% block extra_js %}
-    <script src="{% static 'services/js/servicios.js' %}"></script>
-{% endblock extra_js %}

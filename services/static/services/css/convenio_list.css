@@ -1,0 +1,238 @@
+/* =================================================================
+   ESTILOS PROFESIONALES PARA LA PÁGINA DE CONVENIOS
+================================================================= */
+
+/* --- Variables de Color y Estilos Base --- */
+:root {
+    --ccl-primary: #172b4d;
+    --ccl-accent: #0d6efd;
+    --ccl-light-bg: #f8f9fa;
+    --ccl-border-color: #e9ecef;
+    --ccl-text-muted: #6c757d;
+}
+.bg-light { background-color: var(--ccl-light-bg) !important; }
+
+/* --- Hero Section --- */
+.hero-convenios {
+    padding: 8rem 0;
+    background: url("{% static 'img/convenios-bg.jpg' %}") no-repeat center center;
+    background-size: cover;
+    position: relative;
+}
+.hero-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(45deg, rgba(23, 43, 77, 0.8), rgba(42, 74, 138, 0.8));
+}
+
+/* --- Nueva Sección: ¿Cómo Funcionan? --- */
+.step-card {
+    text-align: center;
+    padding: 2rem;
+    height: 100%;
+}
+.step-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, var(--ccl-accent), #6b9eff);
+    color: #fff;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+.step-card:hover .step-icon {
+    transform: scale(1.1) rotate(10deg);
+}
+.step-title {
+    color: var(--ccl-primary);
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+.step-description {
+    color: var(--ccl-text-muted);
+}
+
+/* --- Tarjetas de Convenio (Ajustadas) --- */
+.convenio-card {
+    background-color: #fff;
+    border: 1px solid var(--ccl-border-color);
+    border-radius: 0.75rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease-in-out;
+}
+.convenio-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0,0,0,.1);
+    border-color: var(--ccl-accent);
+}
+.convenio-card-header {
+    text-align: center;
+    padding: 2rem 1.5rem; /* Padding ajustado */
+    border-bottom: 1px solid var(--ccl-border-color);
+}
+.convenio-title {
+    color: var(--ccl-primary);
+    font-weight: 700;
+    margin-bottom: 0;
+}
+.convenio-card-body {
+    padding: 1.5rem;
+    flex-grow: 1;
+}
+.convenio-description {
+    color: var(--ccl-text-muted);
+    font-size: 0.95rem;
+}
+.convenio-card-footer {
+    padding: 0 1.5rem 1.5rem;
+}
+.btn-convenio {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background-color: transparent;
+    border: 2px solid var(--ccl-accent);
+    color: var(--ccl-accent);
+    padding: 0.6rem 1rem;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+.btn-convenio:hover {
+    background-color: var(--ccl-accent);
+    color: #fff;
+}
+
+/* --- Animaciones de Entrada --- */
+.animar-entrada {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+.animar-entrada.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* =================================================================
+   ESTILOS PARA LA PÁGINA DE CONVENIOS (LISTA Y DETALLE)
+================================================================= */
+
+/* --- Variables de Color y Estilos Base --- */
+:root {
+    --ccl-primary: #172b4d;
+    --ccl-accent: #0d6efd;
+    --ccl-light-bg: #f8f9fa;
+    --ccl-border-color: #e9ecef;
+    --ccl-text-muted: #6c757d;
+}
+
+/* --- Encabezado de la Página de Detalle --- */
+.convenio-detail-header {
+    background: var(--ccl-primary);
+    padding: 3rem 0;
+    margin-bottom: -1px; /* Evita doble borde con la sección de abajo */
+}
+.back-link {
+    display: inline-block;
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.7;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+}
+.back-link:hover {
+    opacity: 1;
+    transform: translateX(-5px);
+}
+
+/* --- Acordeón de Beneficios Personalizado --- */
+.accordion-item {
+    border: 1px solid var(--ccl-border-color);
+    border-radius: 0.5rem !important; /* Forzar el borde redondeado */
+    margin-bottom: 1rem;
+    overflow: hidden;
+}
+.accordion-button {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--ccl-primary);
+}
+.accordion-button:not(.collapsed) {
+    background-color: var(--ccl-accent);
+    color: #fff;
+    box-shadow: none;
+}
+.accordion-button:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+.accordion-button::after {
+    font-family: 'bootstrap-icons';
+    content: '\F282'; /* bi-plus-lg */
+    transition: transform 0.3s ease;
+    background-image: none;
+    font-weight: bold;
+}
+.accordion-button:not(.collapsed)::after {
+    content: '\F463'; /* bi-dash-lg */
+    transform: rotate(180deg);
+}
+.accordion-body ul { margin-top: 1rem; }
+.accordion-body .list-group-item {
+    background-color: transparent;
+    border: none;
+    padding-left: 0;
+}
+
+/* --- Barra Lateral de Información --- */
+.sidebar-info-card {
+    background-color: #fff;
+    border: 1px solid var(--ccl-border-color);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,.05);
+}
+.sidebar-info-card-header {
+    background-color: var(--ccl-light-bg);
+    padding: 1rem 1.5rem;
+    font-weight: 700;
+    color: var(--ccl-primary);
+    border-bottom: 1px solid var(--ccl-border-color);
+}
+.sidebar-info-card-body ul li {
+    display: flex;
+    align-items: flex-start;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--ccl-border-color);
+}
+.sidebar-info-card-body ul li:last-child {
+    border-bottom: none;
+}
+.sidebar-info-card-body i {
+    font-size: 1.25rem;
+    color: var(--ccl-accent);
+    margin-right: 1rem;
+    margin-top: 0.25rem; /* Alineación vertical */
+}
+.sidebar-info-card-body span {
+    color: var(--ccl-text-muted);
+}
+
+/* --- Animaciones de Entrada --- */
+.animar-entrada {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+.animar-entrada.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
