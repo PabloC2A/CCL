@@ -4,14 +4,16 @@
 {% block title %}{{ convenio.nombre_entidad }} - {{ block.super }}{% endblock title %}
 
 {% block extra_head %}
-    {# Usamos un archivo CSS dedicado para los convenios #}
     <link rel="stylesheet" href="{% static 'services/css/convenio_list.css' %}">
 {% endblock extra_head %}
 
 {% block content %}
 
+    <!-- 1. CABECERA REDISEÑADA CON FONDO ANIMADO -->
     <section class="convenio-detail-header">
-        <div class="container">
+        <!-- Contenedor para el patrón animado -->
+        <div class="header-pattern"></div>
+        <div class="container position-relative">
             <a href="{% url 'services:convenio-list' %}" class="back-link animar-entrada"><i class="bi bi-arrow-left"></i> Volver a Convenios</a>
             <h1 class="display-4 fw-bolder text-white animar-entrada" data-delay="100">{{ convenio.nombre_entidad }}</h1>
         </div>
@@ -23,6 +25,7 @@
 
                 <div class="col-lg-8">
                     <h2 class="mb-4 animar-entrada" data-delay="200">Beneficios Exclusivos</h2>
+                    <!-- 2. ACORDEÓN DE BENEFICIOS MEJORADO -->
                     <div class="accordion accordion-flush" id="accordionBeneficios">
                         {% for beneficio in convenio.beneficios.all %}
                             <div class="accordion-item animar-entrada" data-delay="{{ forloop.counter|add:'2' }}00">
@@ -53,23 +56,24 @@
                 </div>
 
                 <aside class="col-lg-4">
+                    <!-- 3. BARRA LATERAL DE INFORMACIÓN REDISEÑADA -->
                     <div class="sidebar-info-card position-sticky animar-entrada" data-delay="300" style="top: 2rem;">
                         <div class="sidebar-info-card-header">
                             Información de Contacto
                         </div>
                         <div class="sidebar-info-card-body">
-                            <ul class="list-unstyled">
+                            <ul class="list-unstyled mb-0">
                                 {% if convenio.contacto %}
-                                    <li><i class="bi bi-person-fill"></i><span>{{ convenio.contacto }}</span></li>
+                                    <li><i class="bi bi-person-fill"></i><div><strong>Contacto:</strong><span>{{ convenio.contacto }}</span></div></li>
                                 {% endif %}
                                 {% if convenio.contacto_telefono %}
-                                    <li><i class="bi bi-telephone-fill"></i><span>{{ convenio.contacto_telefono }}</span></li>
+                                    <li><i class="bi bi-telephone-fill"></i><div><strong>Teléfono:</strong><span>{{ convenio.contacto_telefono }}</span></div></li>
                                 {% endif %}
                                 {% if convenio.contacto_email %}
-                                    <li><i class="bi bi-envelope-fill"></i><span>{{ convenio.contacto_email }}</span></li>
+                                    <li><i class="bi bi-envelope-fill"></i><div><strong>Email:</strong><span>{{ convenio.contacto_email }}</span></div></li>
                                 {% endif %}
                                 {% if convenio.direccion %}
-                                    <li><i class="bi bi-geo-alt-fill"></i><span>{{ convenio.direccion }}</span></li>
+                                    <li><i class="bi bi-geo-alt-fill"></i><div><strong>Dirección:</strong><span>{{ convenio.direccion }}</span></div></li>
                                 {% endif %}
                             </ul>
                         </div>

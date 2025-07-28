@@ -14,13 +14,16 @@
         <div class="row justify-content-center">
             <div class="col-lg-9">
 
+                <div class="mb-4 anim-fade-in-up">
+                    <a href="{% url 'content:noticia-list' %}" class="btn btn-outline-secondary">‹ Volver a Noticias</a>
+                </div>
+
                 <article class="blog-post-detail">
-                    <header class="mb-4 text-center animar-entrada">
-                        <div class="post-category mb-2">
-                            <span class="badge bg-primary fw-normal fs-6">{{ noticia.categoria.nombre }}</span>
-                        </div>
-                        <h1 class="display-5 fw-bolder mb-3">{{ noticia.titulo }}</h1>
-                        <div class="post-meta justify-content-center">
+
+                    <header class="article-header animar-entrada">
+                        <a href="#" class="post-category-link">{{ noticia.categoria.nombre }}</a>
+                        <h1 class="display-5 fw-bolder my-3">{{ noticia.titulo }}</h1>
+                        <div class="post-meta justify-content-start">
                             <span class="post-meta-item"><i class="bi bi-person-fill"></i> {{ noticia.autor.get_full_name|default:noticia.autor.username }}</span>
                             <span class="post-meta-item"><i class="bi bi-calendar3"></i> {{ noticia.fecha_publicacion|date:"d \d\e F, Y" }}</span>
                             <span class="post-meta-item"><i class="bi bi-chat-dots-fill"></i> {{ comentarios.count }} Comentarios</span>
@@ -28,65 +31,70 @@
                     </header>
 
                     {% if noticia.imagen %}
+                    <!-- 1. Imagen principal con animación de entrada -->
                     <figure class="mb-4 animar-entrada" data-delay="100">
-                        <img class="img-fluid rounded-3 shadow" src="{{ noticia.imagen.url }}" alt="{{ noticia.titulo }}">
+                        <img class="img-fluid rounded-3 shadow-lg" src="{{ noticia.imagen.url }}" alt="{{ noticia.titulo }}">
                     </figure>
                     {% endif %}
                     
+                    <!-- 2. Contenido del artículo con animación de entrada -->
                     <section class="mb-5 post-content animar-entrada" data-delay="200">
                         {{ noticia.contenido|linebreaks }}
                     </section>
+
                 </article>
 
                 <hr class="my-5">
 
+                <!-- SECCIÓN DE COMENTARIOS REDISEÑADA -->
                 <section class="comments-section animar-entrada" data-delay="300">
                     <h3 class="mb-4">Comentarios ({{ comentarios.count }})</h3>
                     
                     {% if user.is_authenticated %}
-                        <div class="card mb-5 shadow-sm">
+                        <!-- Formulario para nuevo comentario -->
+                        <div class="card mb-5 shadow-sm new-comment-card">
                             <div class="card-body">
                                 <div class="d-flex align-items-start">
                                     <div class="flex-shrink-0">
-                                        {# Avatar del usuario actual #}
-                                        <img class="rounded-circle" src="{% static 'img/avatar-placeholder.png' %}" alt="Tu Avatar" width="50" height="50"/>
+                                        <div class="avatar-placeholder rounded-circle">
+                                            <span>{{ user.username.0|upper }}</span>
+                                        </div>
                                     </div>
                                     <div class="ms-3 w-100">
                                         <form method="post" novalidate>
                                             {% csrf_token %}
                                             <textarea name="contenido" class="form-control form-control-light" rows="3" placeholder="Escribe tu comentario..."></textarea>
-                                            <button class="btn btn-primary mt-2" type="submit">Publicar</button>
+                                            <button class="btn btn-primary mt-2" type="submit">Publicar Comentario</button>
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     {% else %}
-                        <div class="alert alert-light border">
+                        <div class="alert alert-light border text-center">
                             Debes <a href="{% url 'users:login' %}?next={{ request.path }}" class="fw-bold">iniciar sesión</a> para poder comentar.
                         </div>
                     {% endif %}
 
-                    {% for comentario in comentarios %}
-                        <div class="comment d-flex mb-4">
-                            <div class="flex-shrink-0">
-                                {% if comentario.autor.perfil.avatar %}
-                                    <img class="rounded-circle" src="{{ comentario.autor.perfil.avatar.url }}" alt="Avatar" width="50" height="50"/>
-                                {% else %}
+                    <!-- Lista de comentarios existentes -->
+                    <div class="comment-list">
+                        {% for comentario in comentarios %}
+                            <div class="comment d-flex mb-4">
+                                <div class="flex-shrink-0">
                                     <div class="avatar-placeholder rounded-circle">
                                         <span>{{ comentario.autor.username.0|upper }}</span>
                                     </div>
-                                {% endif %}
+                                </div>
+                                <div class="ms-3 comment-body">
+                                    <div class="fw-bold">{{ comentario.autor.get_full_name|default:comentario.autor.username }}</div>
+                                    <div class="text-muted small mb-2">{{ comentario.fecha_creacion|timesince }} atrás</div>
+                                    <p class="mb-0">{{ comentario.contenido|linebreaksbr }}</p>
+                                </div>
                             </div>
-                            <div class="ms-3">
-                                <div class="fw-bold">{{ comentario.autor.get_full_name|default:comentario.autor.username }}</div>
-                                <div class="text-muted small mb-2">{{ comentario.fecha_creacion|timesince }} atrás</div>
-                                <p class="mb-0">{{ comentario.contenido|linebreaksbr }}</p>
-                            </div>
-                        </div>
-                    {% empty %}
-                        <p class="text-center text-muted mt-5">Aún no hay comentarios. ¡Sé el primero en comentar!</p>
-                    {% endfor %}
+                        {% empty %}
+                            <p class="text-center text-muted mt-5">Aún no hay comentarios. ¡Sé el primero en comentar!</p>
+                        {% endfor %}
+                    </div>
                 </section>
 
             </div>

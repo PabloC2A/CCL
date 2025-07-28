@@ -52,5 +52,39 @@ document.addEventListener('DOMContentLoaded', () => {
             logo.style.transform = 'translate(0, 0)';
         });
     }
+    
+    const tituloElement = document.getElementById('cta-titulo-animado');
+    if (!tituloElement) {
+        return;
+    }
 
+    const frases = ["Únete a la Fuerza Empresarial de Loja", "Conecta tu Negocio", "Accede a Beneficios Exclusivos", "Impulsa tu Crecimiento"];
+    let fraseIndex = 0;
+    let charIndex = 0;
+    let estaBorrando = false;
+    const velocidadEscritura = 150;
+    const velocidadBorrado = 75;
+    const tiempoEspera = 2000;
+
+    function escribir() {
+        if (!tituloElement) return;
+
+        if (!estaBorrando && charIndex < frases [fraseIndex].length) {
+            tituloElement.textContent += frases [fraseIndex].charAt(charIndex);
+            charIndex++;
+            setTimeout(escribir, velocidadEscritura);
+        } else if (estaBorrando && charIndex > 0) {
+            tituloElement.textContent = frases [fraseIndex].substring(0, charIndex - 1);
+            charIndex--;
+            setTimeout(escribir, velocidadBorrado);
+        } else {
+            estaBorrando = !estaBorrando;
+            setTimeout(() => {
+                fraseIndex = !estaBorrando ? (fraseIndex + 1) % frases.length : fraseIndex;
+                escribir();
+            }, tiempoEspera);
+        }
+    }
+
+    escribir();
 });

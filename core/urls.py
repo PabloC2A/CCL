@@ -7,5 +7,6 @@ app_name = 'core'
 urlpatterns = [
     path('', views.landing_page_view, name='home'),
     path('nosotros/', NosotrosView.as_view(), name='nosotros'),
+    path('contacto/', views.contacto_view, name='contacto'),
 ]
 
